@@ -4,8 +4,7 @@ using System.Drawing;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Forms;
-using Eagle.Properties;
-using MessageBox = System.Windows.MessageBox;
+
 
 namespace Eagle.Utility
 {
@@ -116,18 +115,16 @@ namespace Eagle.Utility
                     _menu = new ContextMenu();
 
                     var menuItem = new MenuItem { Text = "E&xit" };
-                    menuItem.Click += MenuItemOnClick;
+                    menuItem.Click += OnExit;
                     _menu.MenuItems.Add(0, menuItem);
 
                     var menuItem1 = new MenuItem { Text = "Settings" };
-                    menuItem1.Click += MenuItem1OnClick;
+                    menuItem1.Click += OnShowSettingsWindow;
                     _menu.MenuItems.Add(0, menuItem1);
                     
                     _notifyIcon.ContextMenu = _menu;
-
-                    //_notifyIcon.MouseClick += HandleNotifyIconOrBalloonClicked;
-                    //_notifyIcon.BalloonTipClicked += HandleNotifyIconOrBalloonClicked;
                 }
+
                 _notifyIcon.Text = _window.Title;
 
                 // Show/hide Window and NotifyIcon
@@ -143,13 +140,17 @@ namespace Eagle.Utility
                 //}
             }
 
-            private void MenuItem1OnClick(object sender, EventArgs eventArgs)
+            private void OnShowSettingsWindow(object sender, EventArgs eventArgs)
             {
                 var s = new Settings();
+
+                //When done changing settings, restart the observer
+                s.Closed += (o, args) => ((MainWindow)_window).ResetObserver();
+
                 s.Show();
             }
 
-            private void MenuItemOnClick(object sender, EventArgs eventArgs)
+            private void OnExit(object sender, EventArgs eventArgs)
             {
                 _window.Close();
             }

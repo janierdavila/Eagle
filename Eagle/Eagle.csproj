@@ -64,7 +64,8 @@
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utility\EagleConfigurationModel.cs" />
-    <Compile Include="Utility\RegexUtilities.cs" />
+    <Compile Include="Utility\EagleObserver.cs" />
+    <Compile Include="Utility\Utilities.cs" />
     <Compile Include="Utility\SerializationHelper.cs" />
     <Compile Include="Utility\TrayMinimizer.cs" />
     <Page Include="MainWindow.xaml">

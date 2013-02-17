@@ -23,7 +23,7 @@ namespace Eagle
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            _fbd = new System.Windows.Forms.FolderBrowserDialog { RootFolder = Environment.SpecialFolder.Personal };
+            _fbd = new System.Windows.Forms.FolderBrowserDialog { RootFolder = Environment.SpecialFolder.Desktop };
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
@@ -34,7 +34,6 @@ namespace Eagle
         private void Apply_Click(object sender, RoutedEventArgs e)
         {
             _model.Save();
-            this.Close();
         }
 
         private void OK_Click(object sender, RoutedEventArgs e)
@@ -83,12 +82,12 @@ namespace Eagle
                 return;
             }
 
-            if (!RegexUtilities.IsValidEmail(txtEmail.Text))
+            if (!Utilities.IsValidEmail(txtEmail.Text))
             {
                 MessageBox.Show("Invalid Email...", "Invalid Email", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            
+
             _model.Emails.Add(txtEmail.Text);
             txtEmail.Text = string.Empty;
         }
@@ -116,6 +115,12 @@ namespace Eagle
             if (string.IsNullOrWhiteSpace(txtExtension.Text))
             {
                 MessageBox.Show("Nothing to add", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (_model.Exts.Count == 1)
+            {
+                MessageBox.Show("Only one filter is supported at the moment. Use *.* for all files", "Only one filter...", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 

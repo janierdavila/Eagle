@@ -3,8 +3,6 @@ using System.Windows;
 
 using Eagle.Utility;
 
-
-
 namespace Eagle
 {
     /// <summary>
@@ -12,9 +10,12 @@ namespace Eagle
     /// </summary>
     public partial class MainWindow : Window
     {
+        private EagleObserver _observer;
         public MainWindow()
         {
             InitializeComponent();
+            this.Title = "Eagle Observer";
+
             TrayMinimizer.EnableMinimizeToTray(this);
             Loaded += OnWindowLoaded;
         }
@@ -23,6 +24,14 @@ namespace Eagle
         {
             this.WindowState = WindowState.Minimized;
             this.OnStateChanged(EventArgs.Empty);
+
+            _observer = new EagleObserver();
+            _observer.Start();
+        }
+
+        public void ResetObserver()
+        {
+            _observer.Restart();
         }
     }
 }
