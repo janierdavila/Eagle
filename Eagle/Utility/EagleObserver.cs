@@ -123,7 +123,7 @@ namespace Eagle.Utility
             {
                 var timespan = DateTime.Now - _lastTimeEmailWasSent;
                 
-                if (timespan.Seconds < DefaultWaitTime)
+                if (timespan.TotalSeconds < DefaultWaitTime)
                 {
                     //Dont send emails until after 10 secs.
                     //Everything that happens while we hold on, save it for summary
