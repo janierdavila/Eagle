@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using Eagle.Utility;
 
@@ -44,16 +45,35 @@ namespace Eagle
 
         private void AddDirectory_Click(object sender, RoutedEventArgs e)
         {
-            if (_fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (string.IsNullOrWhiteSpace(txtDir.Text))
             {
-                if (_model.Directories.Contains(_fbd.SelectedPath))
+                MessageBox.Show("Nothing to add", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (_model.Directories.Contains(txtDir.Text))
+            {
+                MessageBox.Show("Directory had already been added.", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            try
+            {
+                if (!Directory.Exists(txtDir.Text))
                 {
-                    MessageBox.Show("Directory had already previously added.", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Directory is invalid or inaccessible.", "Error", MessageBoxButton.OK,
+                                    MessageBoxImage.Error);
                     return;
                 }
-
-                _model.Directories.Add(_fbd.SelectedPath);
             }
+            catch (IOException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            _model.Directories.Add(txtDir.Text);
+            txtDir.Text = string.Empty;
         }
 
         private void RemoveDir_Click(object sender, RoutedEventArgs e)
@@ -144,6 +164,14 @@ namespace Eagle
 
             var str = LsbExtensions.SelectedItem.ToString();
             _model.Exts.Remove(str);
+        }
+
+        private void Browse_Click(object sender, RoutedEventArgs e)
+        {
+            if (_fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                txtDir.Text = _fbd.SelectedPath;
+            }
         }
     }
 }

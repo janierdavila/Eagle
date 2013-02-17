@@ -8,9 +8,11 @@
 			<TabItem Header="Folders">
 				<Grid>
 					<Label Content="Add or remove the directories to monitor." Margin="10,10,398,330"/>
-					<ListBox x:Name="LsbDirectories" Margin="16,38,21,79" ItemsSource="{Binding Directories}"/>
+					<ListBox x:Name="LsbDirectories" Margin="16,84,21,79" ItemsSource="{Binding Directories}"/>
 					<Button x:Name="addDirectory" Content="Add..." HorizontalAlignment="Left" Margin="445,309.04,0,0" VerticalAlignment="Top" Width="75" Click="AddDirectory_Click"/>
 					<Button x:Name="removeDirectory" Content="Remove..." HorizontalAlignment="Left" Margin="542,309.04,0,0" VerticalAlignment="Top" Width="75" Click="RemoveDir_Click" />
+					<TextBox x:Name="txtDir" HorizontalAlignment="Left" Height="23" Margin="16,47,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="504"/>
+					<Button x:Name="btnBrowse" Content="Browse..." HorizontalAlignment="Left" Margin="542,47,0,0" VerticalAlignment="Top" Width="75" Click="Browse_Click"/>
 				</Grid>
 			</TabItem>
 			<TabItem Header="Filters">
