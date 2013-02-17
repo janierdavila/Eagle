@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Eagle.Utility;
 
 namespace Eagle
 {
@@ -13,5 +14,6 @@ namespace Eagle
     /// </summary>
     public partial class App : Application
     {
+       
     }
 }

@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Forms;
 using Eagle.Properties;
+using MessageBox = System.Windows.MessageBox;
 
 namespace Eagle.Utility
 {
@@ -70,6 +71,8 @@ namespace Eagle.Utility
         {
             private Window _window;
             private NotifyIcon _notifyIcon;
+            private ContextMenu _menu;
+
 
             /// <summary>
             /// Initializes a new instance of the MinimizeToTrayInstance class.
@@ -109,8 +112,21 @@ namespace Eagle.Utility
                 {
                     _notifyIcon = new NotifyIcon();
                     _notifyIcon.Icon = Icon.ExtractAssociatedIcon(Assembly.GetEntryAssembly().Location);
-                    _notifyIcon.MouseClick += HandleNotifyIconOrBalloonClicked;
-                    _notifyIcon.BalloonTipClicked += new EventHandler(HandleNotifyIconOrBalloonClicked);
+
+                    _menu = new ContextMenu();
+
+                    var menuItem = new MenuItem { Text = "E&xit" };
+                    menuItem.Click += MenuItemOnClick;
+                    _menu.MenuItems.Add(0, menuItem);
+
+                    var menuItem1 = new MenuItem { Text = "Settings" };
+                    menuItem1.Click += MenuItem1OnClick;
+                    _menu.MenuItems.Add(0, menuItem1);
+                    
+                    _notifyIcon.ContextMenu = _menu;
+
+                    //_notifyIcon.MouseClick += HandleNotifyIconOrBalloonClicked;
+                    //_notifyIcon.BalloonTipClicked += HandleNotifyIconOrBalloonClicked;
                 }
                 _notifyIcon.Text = _window.Title;
 
@@ -118,13 +134,24 @@ namespace Eagle.Utility
                 var minimized = (_window.WindowState == WindowState.Minimized);
                 _window.ShowInTaskbar = !minimized;
                 _notifyIcon.Visible = minimized;
-                if (minimized && !Settings.Default.MinimizeBalloonShown)
-                {
-                    // If this is the first time minimizing to the tray, show the user what happened
-                    _notifyIcon.ShowBalloonTip(1000, _window.Title, "I'm still running!", ToolTipIcon.None);
-                    Settings.Default.MinimizeBalloonShown = true;
-                    Settings.Default.Save();
-                }
+                //if (minimized && !Settings.Default.MinimizeBalloonShown)
+                //{
+                //    // If this is the first time minimizing to the tray, show the user what happened
+                _notifyIcon.ShowBalloonTip(1000, _window.Title, "Remember that I'm always running down here!", ToolTipIcon.None);
+                //    Settings.Default.MinimizeBalloonShown = true;
+                //    Settings.Default.Save();
+                //}
+            }
+
+            private void MenuItem1OnClick(object sender, EventArgs eventArgs)
+            {
+                var s = new Settings();
+                s.Show();
+            }
+
+            private void MenuItemOnClick(object sender, EventArgs eventArgs)
+            {
+                _window.Close();
             }
 
             /// <summary>
