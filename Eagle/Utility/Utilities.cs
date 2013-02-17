@@ -69,9 +69,9 @@ namespace Eagle.Utility
                     client.Send("noreply@qpaynet.com", to, subject, body);
                 }
             }
-            catch 
+            catch (Exception e)
             {
-                /*Ignore*/
+                Console.WriteLine(e);
             }
         }
     }

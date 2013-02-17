@@ -34,6 +34,7 @@ namespace Eagle.Utility
                 }
 
                 w.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName;
+                w.IncludeSubdirectories = true;
 
                 EnableFileWatcherEvents(w);
 
@@ -70,12 +71,12 @@ namespace Eagle.Utility
 
         private void DisableFileWatcherEvents(FileSystemWatcher watcher)
         {
+            watcher.EnableRaisingEvents = false;
+
             watcher.Changed -= OnChanged;
             watcher.Created -= OnChanged;
             watcher.Deleted -= OnChanged;
             watcher.Renamed -= OnRenamed;
-
-            watcher.EnableRaisingEvents = false;
         }
 
         private void SendEmails(string body, string path)
@@ -98,7 +99,7 @@ namespace Eagle.Utility
         private void OnRenamed(object source, RenamedEventArgs e)
         {
             string message = string.Format("File {0} was {1} at {2}", e.FullPath, e.ChangeType, DateTime.Now);
-            SendEmails(message, e.FullPath); 
+            SendEmails(message, e.FullPath);
         }
 
     }
