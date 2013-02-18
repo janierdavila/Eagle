@@ -23,5 +23,7 @@ Eagle is being developed using .NET 4.5 and WPF. Obviously, using Visual Studio 
  
 This a small utility that I put together very quickly solving a specific problem I'm having. I don't expect this will be useful for anybody else. It is also possible that a similar tool exists with better capabilities. I spent no time finding that out, I jumped to coding at once. So yeah, probably not...only for me at the moment!
  
+## uh? Eagle?
 
+I do not have a formal name yet. I wanted to be cool. Eagles are cool! Plus, at first I saw a relation between watching over directories and the eagle :)
 
