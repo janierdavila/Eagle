@@ -18,8 +18,11 @@ namespace Eagle.Utility
         private DispatcherTimer _timer;
         private const int DefaultWaitTime = 10;
 
-        public EagleObserver()
+        private Dispatcher _dispatcher;
+
+        public EagleObserver(Dispatcher dispatcher)
         {
+            _dispatcher = dispatcher;
             _model = EagleConfigurationModel.Current;
             _watchers = new List<FileSystemWatcher>();
             _messages = new List<string>();
@@ -93,7 +96,7 @@ namespace Eagle.Utility
         {
             if (_timer == null)
             {
-                _timer = new DispatcherTimer();
+                _timer = new DispatcherTimer(DispatcherPriority.Normal, _dispatcher);
                 _timer.Tick += TimerOnTick;
                 _timer.Interval = TimeSpan.FromSeconds(DefaultWaitTime);
             }
@@ -122,13 +125,13 @@ namespace Eagle.Utility
             if (_lastTimeEmailWasSent != DateTime.MinValue)
             {
                 var timespan = DateTime.Now - _lastTimeEmailWasSent;
-                
+
                 if (timespan.TotalSeconds < DefaultWaitTime)
                 {
                     //Dont send emails until after 10 secs.
                     //Everything that happens while we hold on, save it for summary
                     _messages.Add(body);
-                    
+
                     StartTimer();
 
                     return;

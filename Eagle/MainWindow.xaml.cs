@@ -25,7 +25,7 @@ namespace Eagle
             this.WindowState = WindowState.Minimized;
             this.OnStateChanged(EventArgs.Empty);
 
-            _observer = new EagleObserver();
+            _observer = new EagleObserver(Dispatcher);
             _observer.Start();
         }
 
