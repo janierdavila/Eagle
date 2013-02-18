@@ -18,11 +18,14 @@ namespace Eagle.Utility
         private DispatcherTimer _timer;
         private const int DefaultWaitTime = 10;
 
+        //Used to sync a timer
+        //since this class is called from the UI thread
         private Dispatcher _dispatcher;
 
         public EagleObserver(Dispatcher dispatcher)
         {
             _dispatcher = dispatcher;
+
             _model = EagleConfigurationModel.Current;
             _watchers = new List<FileSystemWatcher>();
             _messages = new List<string>();
