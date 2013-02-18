@@ -133,8 +133,13 @@ namespace Eagle.Utility
                 {
                     //Dont send emails until after 10 secs.
                     //Everything that happens while we hold on, save it for summary
-                    _messages.Add(body);
+                    if (!_messages.Contains(body))
+                    {
+                        _messages.Add(body);
+                    }
 
+                    //This is harmless that it is called several times
+                    //it will only start once!
                     StartTimer();
 
                     return;
