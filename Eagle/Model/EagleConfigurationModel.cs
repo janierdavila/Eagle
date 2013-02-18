@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
-using System.Runtime.CompilerServices;
-using Eagle.Annotations;
 
-namespace Eagle.Utility
+using Eagle.Utility;
+
+namespace Eagle.Model
 {
-    public class EagleConfigurationModel : INotifyPropertyChanged
+    public class EagleConfigurationModel : ModelBase
     {
         static EagleConfigurationModel()
         {
@@ -19,13 +18,38 @@ namespace Eagle.Utility
             Directories = new ObservableCollection<string>();
             Emails = new ObservableCollection<string>();
             Exts = new ObservableCollection<string>();
+            SmtpInfo = new SmtpInfo();
         }
 
         private static readonly string Xml;
 
         private ObservableCollection<string> _directories;
-        private ObservableCollection<string>  _exts;
+        private ObservableCollection<string> _exts;
         private ObservableCollection<string> _emails;
+        private SmtpInfo _smtpInfo;
+        private int _notificationDelay = 10;
+
+        public int NotificationDelay
+        {
+            get { return _notificationDelay; }
+            set
+            {
+                if (value == _notificationDelay) return;
+                _notificationDelay = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public SmtpInfo SmtpInfo
+        {
+            get { return _smtpInfo; }
+            set
+            {
+                if (Equals(value, _smtpInfo)) return;
+                _smtpInfo = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ObservableCollection<string> Emails
         {
@@ -38,7 +62,6 @@ namespace Eagle.Utility
                 OnPropertyChanged();
             }
         }
-
 
         public ObservableCollection<string> Directories
         {
@@ -81,19 +104,5 @@ namespace Eagle.Utility
         {
             await SerializerHelper.XmlSerialize(Xml, this);
         }
-
-        #region INotifyPropertyChanged members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
-
     }
 }

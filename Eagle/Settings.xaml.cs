@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
+using Eagle.Model;
 using Eagle.Utility;
 
 namespace Eagle
@@ -39,6 +40,13 @@ namespace Eagle
 
         private void OK_Click(object sender, RoutedEventArgs e)
         {
+            //Only update if user provided one
+            if (!string.IsNullOrWhiteSpace(txtPassword.Password))
+            {
+                //Need to do this with the password. NO DP
+                _model.SmtpInfo.Password = txtPassword.Password;   
+            }
+
             _model.Save();
             this.Close();
         }
@@ -108,6 +116,12 @@ namespace Eagle
                 return;
             }
 
+            if (_model.Emails.Contains(txtEmail.Text))
+            {
+                MessageBox.Show("Email had already been added.", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
             _model.Emails.Add(txtEmail.Text);
             txtEmail.Text = string.Empty;
         }
@@ -173,5 +187,16 @@ namespace Eagle
                 txtDir.Text = _fbd.SelectedPath;
             }
         }
+
+        private void BtnRemoveAllFolders_OnClick(object sender, RoutedEventArgs e)
+        {
+            _model.Directories.Clear();
+        }
+
+        private void BtnRemoveAllEmails_OnClick(object sender, RoutedEventArgs e)
+        {
+            _model.Emails.Clear();
+        }
+
     }
 }

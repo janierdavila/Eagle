@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Globalization;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Net.Mail;
+using Eagle.Model;
 
 namespace Eagle.Utility
 {
@@ -60,13 +62,21 @@ namespace Eagle.Utility
             return match.Groups[1].Value + domainName;
         }
 
-        public static void SendEmail(string to, string subject, string body)
+        public static void SendEmail(string to, string subject, string body, SmtpInfo smtpInfo)
         {
             try
             {
-                using (var client = new SmtpClient())
+                using (var client = new SmtpClient(smtpInfo.Host, smtpInfo.Port))
                 {
-                    client.Send("noreply@qpaynet.com", to, subject, body);
+                    client.UseDefaultCredentials = string.IsNullOrWhiteSpace(smtpInfo.UserName);
+                    client.EnableSsl = smtpInfo.EnableSsl;
+
+                    if (!string.IsNullOrWhiteSpace(smtpInfo.UserName))
+                    {
+                        client.Credentials = new NetworkCredential(smtpInfo.UserName, smtpInfo.Password);
+                    }
+
+                    client.Send("noreply@outlook.com", to, subject, body);
                 }
             }
             catch (Exception e)

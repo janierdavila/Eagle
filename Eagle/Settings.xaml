@@ -9,10 +9,11 @@
 				<Grid>
 					<Label Content="Add or remove the directories to monitor." Margin="10,10,398,330"/>
 					<ListBox x:Name="LsbDirectories" Margin="16,84,21,79" ItemsSource="{Binding Directories}"/>
-					<Button x:Name="addDirectory" Content="Add..." HorizontalAlignment="Left" Margin="445,309.04,0,0" VerticalAlignment="Top" Width="75" Click="AddDirectory_Click"/>
-					<Button x:Name="removeDirectory" Content="Remove..." HorizontalAlignment="Left" Margin="542,309.04,0,0" VerticalAlignment="Top" Width="75" Click="RemoveDir_Click" />
+					<Button x:Name="addDirectory" Content="Add..." HorizontalAlignment="Left" Margin="364,309.04,0,0" VerticalAlignment="Top" Width="75" Click="AddDirectory_Click"/>
+					<Button x:Name="removeDirectory" Content="Remove..." HorizontalAlignment="Left" Margin="454,309.04,0,0" VerticalAlignment="Top" Width="75" Click="RemoveDir_Click" />
 					<TextBox x:Name="txtDir" HorizontalAlignment="Left" Height="23" Margin="16,47,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="504"/>
 					<Button x:Name="btnBrowse" Content="Browse..." HorizontalAlignment="Left" Margin="542,47,0,0" VerticalAlignment="Top" Width="75" Click="Browse_Click"/>
+					<Button x:Name="btnRemoveAllFolders" Content="Remove all..." HorizontalAlignment="Left" Margin="542,309.04,0,0" VerticalAlignment="Top" Width="75" Click="BtnRemoveAllFolders_OnClick"/>
 				</Grid>
 			</TabItem>
 			<TabItem Header="Filters">
@@ -27,10 +28,27 @@
 			<TabItem Header="Notifications">
 				<Grid>
 					<Label Margin="10,8,21,332" Content="Add or remove emails to send notifications to."/>
-					<ListBox x:Name="LsbEmails" Margin="16,84,140,79" ItemsSource="{Binding Emails}"/>
+					<ListBox x:Name="LsbEmails" Margin="16,84,140,163" ItemsSource="{Binding Emails}"/>
 					<Button x:Name="addEmail" Content="Add..." HorizontalAlignment="Left" Margin="542,44,0,0" VerticalAlignment="Top" Width="75" Click="AddEmail_Click" RenderTransformOrigin="0.147,-12.425" IsDefault="True"/>
 					<Button x:Name="removeEmail" Content="Remove..." HorizontalAlignment="Left" Margin="542,84,0,0" VerticalAlignment="Top" Width="75" Click="RemoveEmail_Click" />
 					<TextBox x:Name="txtEmail" TextWrapping="Wrap" Margin="15,44,140,296"/>
+					<TextBlock HorizontalAlignment="Left" Margin="16,218.04,0,0" TextWrapping="Wrap" Text="Host:" VerticalAlignment="Top"/>
+					<TextBlock HorizontalAlignment="Left" Margin="220,218.04,0,0" TextWrapping="Wrap" Text="Port:" VerticalAlignment="Top"/>
+					<TextBlock HorizontalAlignment="Left" Margin="16,282.04,0,0" TextWrapping="Wrap" Text="User Name:" VerticalAlignment="Top"/>
+					<TextBlock HorizontalAlignment="Left" Margin="220,282.04,0,0" TextWrapping="Wrap" Text="Password: (Clear Text!!!)" VerticalAlignment="Top"/>
+                    <TextBox Name="txtHost" HorizontalAlignment="Left" Text="{Binding SmtpInfo.Host, Mode=TwoWay}" Height="23" Margin="15,239,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172"/>
+                    <TextBox Name="txtPort" HorizontalAlignment="Left" Text="{Binding SmtpInfo.Port, Mode=TwoWay}" Height="23" Margin="220,239,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60"/>
+                    <TextBox Name="txtUserName" HorizontalAlignment="Left" Text="{Binding SmtpInfo.UserName, Mode=TwoWay}" Height="23" Margin="16,303,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="171"/>
+					<PasswordBox Name="txtPassword" HorizontalAlignment="Left" Margin="220,303,0,0" VerticalAlignment="Top" Width="278" Height="23"/>
+					<Button x:Name="btnRemoveAllEmails" Content="Remove all..." HorizontalAlignment="Left" Margin="542,117.04,0,0" VerticalAlignment="Top" Width="75" Click="BtnRemoveAllEmails_OnClick"/>
+                    <CheckBox x:Name="cbEnableSSL" Content="Enable SSL?" HorizontalAlignment="Left" Margin="416,239,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.27,-0.367" IsChecked="{Binding SmtpInfo.EnableSsl, Mode=TwoWay}"/>
+                </Grid>
+			</TabItem>
+			<TabItem Header="Misc">
+				<Grid>
+					<Label Content="Delay between notifications:" Margin="10,10,464,327"/>
+					<TextBox x:Name="txtDelay" Height="23" TextWrapping="Wrap" Margin="174,14,414,326" Text="{Binding NotificationDelay, Mode=TwoWay}" HorizontalContentAlignment="Right"/>
+					<Label Content="secs." Width="100" Margin="226,10,312,330"/>
 				</Grid>
 			</TabItem>
 		</TabControl>

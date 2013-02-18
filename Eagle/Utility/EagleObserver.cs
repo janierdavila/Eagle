@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Threading;
+using Eagle.Model;
 
 namespace Eagle.Utility
 {
@@ -16,11 +17,10 @@ namespace Eagle.Utility
         private DateTime _lastTimeEmailWasSent;
 
         private DispatcherTimer _timer;
-        private const int DefaultWaitTime = 10;
-
+        
         //Used to sync a timer
         //since this class is called from the UI thread
-        private Dispatcher _dispatcher;
+        private readonly Dispatcher _dispatcher;
 
         public EagleObserver(Dispatcher dispatcher)
         {
@@ -101,7 +101,7 @@ namespace Eagle.Utility
             {
                 _timer = new DispatcherTimer(DispatcherPriority.Normal, _dispatcher);
                 _timer.Tick += TimerOnTick;
-                _timer.Interval = TimeSpan.FromSeconds(DefaultWaitTime);
+                _timer.Interval = TimeSpan.FromSeconds(_model.NotificationDelay);
             }
 
             //Only start the timer if it is not already running
@@ -115,7 +115,7 @@ namespace Eagle.Utility
         {
             _timer.Stop();
 
-            //Just try to send an email again, since it's time anyways
+            //Send summary
             SendEmails(string.Empty);
         }
 
@@ -129,16 +129,17 @@ namespace Eagle.Utility
             {
                 var timespan = DateTime.Now - _lastTimeEmailWasSent;
 
-                if (timespan.TotalSeconds < DefaultWaitTime)
+                if (timespan.TotalSeconds < _model.NotificationDelay)
                 {
-                    //Dont send emails until after 10 secs.
+                    //Schedule next email.
                     //Everything that happens while we hold on, save it for summary
+                    //Also only allow one notification per file
                     if (!_messages.Contains(body))
                     {
                         _messages.Add(body);
                     }
 
-                    //This is harmless that it is called several times
+                    //This is harmless even when it is called several times
                     //it will only start once!
                     StartTimer();
 
@@ -156,7 +157,7 @@ namespace Eagle.Utility
 
             foreach (var email in _model.Emails)
             {
-                Utilities.SendEmail(email, "These files you were monitoring was/were updated.", summary);
+                Utilities.SendEmail(email, "These files you were monitoring was/were updated.", summary, _model.SmtpInfo);
             }
 
             //Since these messages were already sent...
