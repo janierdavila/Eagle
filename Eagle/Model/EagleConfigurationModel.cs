@@ -15,16 +15,14 @@ namespace Eagle.Model
 
         public EagleConfigurationModel()
         {
-            Directories = new ObservableCollection<string>();
+            Directories = new ObservableCollection<PathInfo>();
             Emails = new ObservableCollection<string>();
-            Exts = new ObservableCollection<string>();
             SmtpInfo = new SmtpInfo();
         }
 
         private static readonly string Xml;
 
-        private ObservableCollection<string> _directories;
-        private ObservableCollection<string> _exts;
+        private ObservableCollection<PathInfo> _directories;
         private ObservableCollection<string> _emails;
         private SmtpInfo _smtpInfo;
         private int _notificationDelay = 10;
@@ -63,7 +61,7 @@ namespace Eagle.Model
             }
         }
 
-        public ObservableCollection<string> Directories
+        public ObservableCollection<PathInfo> Directories
         {
             get { return _directories; }
             set
@@ -74,19 +72,7 @@ namespace Eagle.Model
                 OnPropertyChanged();
             }
         }
-
-        public ObservableCollection<string> Exts
-        {
-            get { return _exts; }
-            set
-            {
-                if (value == _exts) return;
-                _exts = value;
-
-                OnPropertyChanged();
-            }
-        }
-
+        
         public static EagleConfigurationModel Current
         {
             get

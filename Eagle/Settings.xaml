@@ -7,22 +7,24 @@
 		<TabControl HorizontalAlignment="Left" VerticalAlignment="Top" Width="644" Margin="10,10,0,0" Height="390.96">
 			<TabItem Header="Folders">
 				<Grid>
-					<Label Content="Add or remove the directories to monitor." Margin="10,10,398,330"/>
-					<ListBox x:Name="LsbDirectories" Margin="16,84,21,79" ItemsSource="{Binding Directories}"/>
-					<Button x:Name="addDirectory" Content="Add..." HorizontalAlignment="Left" Margin="364,309.04,0,0" VerticalAlignment="Top" Width="75" Click="AddDirectory_Click"/>
+					<Label Content="Directory:" Margin="10,15,398,316"/>
+                    <ListView x:Name="LsbDirectories"  Margin="16,84,21,79" ItemsSource="{Binding Directories}">
+						<ListView.View>
+							<GridView>
+								<GridViewColumn DisplayMemberBinding="{Binding FileName}" Header="Path" Width="500" />
+								<GridViewColumn DisplayMemberBinding="{Binding Filter}" Header="Filter" Width="100"/>
+							</GridView>
+						</ListView.View>
+					</ListView>
+					<!--<ListBox x:Name="LsbDirectories" Margin="16,84,21,79" ItemsSource="{Binding Directories}" d:IsHidden="True"/>-->
+					<Button x:Name="addDirectory" Content="Add..." HorizontalAlignment="Left" Margin="272,309.04,0,0" VerticalAlignment="Top" Width="75" Click="AddDirectory_Click" IsDefault="True"/>
 					<Button x:Name="removeDirectory" Content="Remove..." HorizontalAlignment="Left" Margin="454,309.04,0,0" VerticalAlignment="Top" Width="75" Click="RemoveDir_Click" />
-					<TextBox x:Name="txtDir" HorizontalAlignment="Left" Height="23" Margin="16,47,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="504"/>
-					<Button x:Name="btnBrowse" Content="Browse..." HorizontalAlignment="Left" Margin="542,47,0,0" VerticalAlignment="Top" Width="75" Click="Browse_Click"/>
+					<TextBox x:Name="txtDir" HorizontalAlignment="Left" Height="23" Margin="16,47,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="413"/>
+					<Button x:Name="btnBrowse" Content="..." HorizontalAlignment="Left" Margin="434,47,0,0" VerticalAlignment="Top" Width="26" Click="Browse_Click"/>
 					<Button x:Name="btnRemoveAllFolders" Content="Remove all..." HorizontalAlignment="Left" Margin="542,309.04,0,0" VerticalAlignment="Top" Width="75" Click="BtnRemoveAllFolders_OnClick"/>
-				</Grid>
-			</TabItem>
-			<TabItem Header="Filters">
-				<Grid>
-					<Label Margin="10,8,21,324" Content="Add or remove filters of extensions we care about. E.g (*.dll) "/>
-					<ListBox x:Name="LsbExtensions" Margin="16,84,140,151" ItemsSource="{Binding Exts}"/>
-					<Button x:Name="addExt" Content="Add..." HorizontalAlignment="Left" Margin="542,44,0,0" VerticalAlignment="Top" Width="75" Click="AddFilter_Click" RenderTransformOrigin="0.147,-12.425" IsDefault="True"/>
-					<Button x:Name="removeExt" Content="Remove..." HorizontalAlignment="Left" Margin="542,84,0,0" VerticalAlignment="Top" Width="75" Click="RemoveFilter_Click" />
-					<TextBox x:Name="txtExtension" TextWrapping="Wrap" Margin="15,44,140,296"/>
+                    <Button x:Name="addEdit" Content="Edit..." HorizontalAlignment="Left" Margin="363,309.04,0,0" VerticalAlignment="Top" Width="75" Click="BtnEdit_OnClick"/>
+					<TextBox x:Name="txtFilter" HorizontalAlignment="Left" Height="23" Margin="490,47,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="127"/>
+					<Label Content="Filter: (E.g. *.dll)" Margin="484,15,27,316"/>
 				</Grid>
 			</TabItem>
 			<TabItem Header="Notifications">

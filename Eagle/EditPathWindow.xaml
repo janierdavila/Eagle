@@ -1,0 +1,15 @@
+﻿<Window x:Class="Eagle.EditPathWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Edit Directory and Filter" Height="229" Width="430" ShowInTaskbar="False" ResizeMode="NoResize" WindowStyle="ToolWindow">
+    <Grid>
+    	<TextBox x:Name="txtPath" HorizontalAlignment="Left" Height="23" Margin="62,53,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="296" Text="{Binding FileName, Mode=TwoWay}"/>
+    	<TextBox x:Name="txtFilter" HorizontalAlignment="Left" Height="23" Margin="62,97,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="296" Text="{Binding Filter, Mode=TwoWay}"/>
+    	<Button x:Name="btnBrowse" Content="..." HorizontalAlignment="Left" Margin="363,56,0,0" VerticalAlignment="Top" Width="25"/>
+    	<Button x:Name="btnOk" Content="OK" HorizontalAlignment="Left" Margin="217,161,0,0" VerticalAlignment="Top" Width="75" IsDefault="True" Click="BtnOk_OnClick"/>
+    	<Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="313,161,0,0" VerticalAlignment="Top" Width="75" IsCancel="True" Click="BtnCancel_OnClick"/>
+    	<Label Content="Filter:" HorizontalAlignment="Left" Margin="20.716,94.04,0,0" VerticalAlignment="Top"/>
+    	<Label Content="Path:" HorizontalAlignment="Left" Margin="20.716,53,0,0" VerticalAlignment="Top"/>
+        
+    </Grid>
+</Window>

@@ -36,9 +36,13 @@
   <PropertyGroup>
     <ApplicationIcon>theIcon.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Eagle.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -50,21 +54,30 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </ApplicationDefinition>
+    </Page>
+    <Compile Include="EditPathWindow.xaml.cs">
+      <DependentUpon>EditPathWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\EagleConfigurationModel.cs" />
     <Compile Include="Model\ModelBase.cs" />
+    <Compile Include="Model\PathInfo.cs" />
     <Compile Include="Model\SmtpInfo.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utility\EagleObserver.cs" />
+    <Compile Include="Utility\SingleInstance.cs" />
     <Compile Include="Utility\Utilities.cs" />
     <Compile Include="Utility\SerializationHelper.cs" />
     <Compile Include="Utility\TrayMinimizer.cs" />
+    <Page Include="EditPathWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

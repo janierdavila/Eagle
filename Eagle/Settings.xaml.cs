@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using Eagle.Model;
 using Eagle.Utility;
@@ -44,7 +45,7 @@ namespace Eagle
             if (!string.IsNullOrWhiteSpace(txtPassword.Password))
             {
                 //Need to do this with the password. NO DP
-                _model.SmtpInfo.Password = txtPassword.Password;   
+                _model.SmtpInfo.Password = txtPassword.Password;
             }
 
             _model.Save();
@@ -55,11 +56,17 @@ namespace Eagle
         {
             if (string.IsNullOrWhiteSpace(txtDir.Text))
             {
-                MessageBox.Show("Nothing to add", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Invalid Directory", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            if (_model.Directories.Contains(txtDir.Text))
+            if (string.IsNullOrWhiteSpace(txtFilter.Text))
+            {
+                MessageBox.Show("Invalid Filter", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (_model.Directories.Any(d => d.FileName == txtDir.Text))
             {
                 MessageBox.Show("Directory had already been added.", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
@@ -80,8 +87,9 @@ namespace Eagle
                 return;
             }
 
-            _model.Directories.Add(txtDir.Text);
+            _model.Directories.Add(new PathInfo { FileName = txtDir.Text, Filter = txtFilter.Text });
             txtDir.Text = string.Empty;
+            txtFilter.Text = string.Empty;
         }
 
         private void RemoveDir_Click(object sender, RoutedEventArgs e)
@@ -98,8 +106,20 @@ namespace Eagle
                 return;
             }
 
-            var str = LsbDirectories.SelectedItem.ToString();
-            _model.Directories.Remove(str);
+            var pathInfo = (PathInfo)LsbDirectories.SelectedItem;
+            _model.Directories.Remove(pathInfo);
+        }
+
+        private void BtnEdit_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (LsbDirectories.SelectedItem == null)
+            {
+                return;
+            }
+            var pathInfo = (PathInfo)LsbDirectories.SelectedItem;
+            var editWindow = new EditPathWindow();
+            editWindow.DataContext = pathInfo;
+            editWindow.ShowDialog();
         }
 
         private void AddEmail_Click(object sender, RoutedEventArgs e)
@@ -144,42 +164,6 @@ namespace Eagle
             _model.Emails.Remove(str);
         }
 
-        private void AddFilter_Click(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtExtension.Text))
-            {
-                MessageBox.Show("Nothing to add", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            if (_model.Exts.Count == 1)
-            {
-                MessageBox.Show("Only one filter is supported at the moment. Use *.* for all files", "Only one filter...", MessageBoxButton.OK, MessageBoxImage.Information);
-                return;
-            }
-
-            _model.Exts.Add(txtExtension.Text);
-            txtExtension.Text = string.Empty;
-        }
-
-        private void RemoveFilter_Click(object sender, RoutedEventArgs e)
-        {
-            if (LsbExtensions.Items.Count <= 0)
-            {
-                MessageBox.Show("Nothing to delete", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            if (LsbExtensions.SelectedItem == null)
-            {
-                MessageBox.Show("Please, select something to delete", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            var str = LsbExtensions.SelectedItem.ToString();
-            _model.Exts.Remove(str);
-        }
-
         private void Browse_Click(object sender, RoutedEventArgs e)
         {
             if (_fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -197,6 +181,7 @@ namespace Eagle
         {
             _model.Emails.Clear();
         }
+
 
     }
 }

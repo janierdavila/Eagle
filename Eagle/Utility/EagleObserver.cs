@@ -17,7 +17,7 @@ namespace Eagle.Utility
         private DateTime _lastTimeEmailWasSent;
 
         private DispatcherTimer _timer;
-        
+
         //Used to sync a timer
         //since this class is called from the UI thread
         private readonly Dispatcher _dispatcher;
@@ -42,12 +42,8 @@ namespace Eagle.Utility
         {
             foreach (var dir in _model.Directories)
             {
-                var w = new FileSystemWatcher(dir);
-
-                if (_model.Directories.Any() && !string.IsNullOrWhiteSpace(_model.Exts.First()))
-                {
-                    w.Filter = _model.Exts.First();
-                }
+                var w = new FileSystemWatcher(dir.FileName);
+                w.Filter = dir.Filter;
 
                 w.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName;
                 w.IncludeSubdirectories = true;

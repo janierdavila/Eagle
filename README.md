@@ -15,7 +15,6 @@ Eagle is being developed using .NET 4.5 and WPF. Obviously, using Visual Studio 
 
 ## TODO
 
- - Refactor to use MVVM and write some Unit Test
  - Add Source Control integration, so dirs monitored can be associated with a repo and notifications can include the last 5 checkings for instance
  - I don't know...whatever else I can come up with...
  
