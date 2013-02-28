@@ -170,8 +170,7 @@ namespace Eagle.Utility
             var sb = new StringBuilder();
             foreach (var message in _messages)
             {
-                sb.Append(message);
-                sb.AppendLine();
+                sb.AppendFormat("{0}<br />", message);
             }
 
             return sb.ToString();

@@ -70,13 +70,16 @@ namespace Eagle.Utility
                 {
                     client.UseDefaultCredentials = string.IsNullOrWhiteSpace(smtpInfo.UserName);
                     client.EnableSsl = smtpInfo.EnableSsl;
-
+                    
                     if (!string.IsNullOrWhiteSpace(smtpInfo.UserName))
                     {
                         client.Credentials = new NetworkCredential(smtpInfo.UserName, smtpInfo.Password);
                     }
 
-                    client.Send("noreply@outlook.com", to, subject, body);
+                    var msg = new MailMessage("noreply@qpaynet.com", to, subject, body);
+                    msg.IsBodyHtml = true;
+
+                    client.Send(msg);
                 }
             }
             catch (Exception e)
