@@ -72,6 +72,7 @@ namespace Eagle.Utility
             private NotifyIcon _notifyIcon;
             private ContextMenu _menu;
 
+            private static bool _settingsOpen = false;
 
             /// <summary>
             /// Initializes a new instance of the MinimizeToTrayInstance class.
@@ -142,12 +143,20 @@ namespace Eagle.Utility
 
             private void OnShowSettingsWindow(object sender, EventArgs eventArgs)
             {
-                var s = new Settings();
+                if (!_settingsOpen)
+                {
+                    _settingsOpen = true;
+                    var s = new Settings();
 
-                //When done changing settings, restart the observer
-                s.Closed += (o, args) => ((MainWindow)_window).ResetObserver();
+                    //When done changing settings, restart the observer
+                    s.Closed += (o, args) =>
+                        {
+                            _settingsOpen = false;
+                            ((MainWindow) _window).ResetObserver();
+                        };
 
-                s.Show();
+                    s.ShowDialog();
+                }
             }
 
             private void OnExit(object sender, EventArgs eventArgs)

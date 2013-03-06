@@ -23,10 +23,11 @@ namespace Eagle
 
         private void OnWindowLoaded(object sender, RoutedEventArgs e)
         {
-            WindowInteropHelper wndHelper = new WindowInteropHelper(this);
-            int exStyle = (int)GetWindowLong(wndHelper.Handle, (int)GetWindowLongFields.GWL_EXSTYLE);
-            exStyle |= (int)ExtendedWindowStyles.WS_EX_TOOLWINDOW;
-            SetWindowLong(wndHelper.Handle, (int)GetWindowLongFields.GWL_EXSTYLE, (IntPtr)exStyle);
+            //Logic to remove from Alt-Tab
+            //WindowInteropHelper wndHelper = new WindowInteropHelper(this);
+            //int exStyle = (int)GetWindowLong(wndHelper.Handle, (int)GetWindowLongFields.GWL_EXSTYLE);
+            //exStyle |= (int)ExtendedWindowStyles.WS_EX_TOOLWINDOW;
+            //SetWindowLong(wndHelper.Handle, (int)GetWindowLongFields.GWL_EXSTYLE, (IntPtr)exStyle);
 
             this.WindowState = WindowState.Minimized;
             this.OnStateChanged(EventArgs.Empty);

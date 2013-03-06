@@ -42,15 +42,23 @@ namespace Eagle.Utility
         {
             foreach (var dir in _model.Directories)
             {
-                var w = new FileSystemWatcher(dir.FileName);
-                w.Filter = dir.Filter;
+                try
+                {
+                    var w = new FileSystemWatcher(dir.FileName);
+                    w.Filter = dir.Filter;
 
-                w.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName;
-                w.IncludeSubdirectories = true;
+                    w.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName |
+                                     NotifyFilters.DirectoryName;
+                    w.IncludeSubdirectories = true;
 
-                EnableFileWatcherEvents(w);
+                    EnableFileWatcherEvents(w);
 
-                _watchers.Add(w);
+                    _watchers.Add(w);
+                }
+                catch (ArgumentException)
+                { 
+                    /*ignore*/
+                }
             }
         }
 
